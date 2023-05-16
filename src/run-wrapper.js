@@ -18,18 +18,23 @@ async function run() {
   args = stringArgv.parseArgsStringToArgv(runCommand);
   command = args[0];
   args = args.slice(1);
+  core.debug(`args:`);
+  core.debug(args);
 
   const options = {
     ignoreReturnCode: true,
     cwd: core.getInput('working-directory') || process.cwd()
   };
+  core.debug(options);
 
   core.debug(`working-directory: ${options.cwd}`);
 
   // Check that the command exists
   io.which(command, true);
+  core.debug('io which check');
 
   const output = await getExecOutput(command, args, options);
+  core.debug(`output`, output);
 
   core.debug(`Program exited with code ${output.exitCode}.`);
   core.debug(`stdout: ${output.stdout}`);
